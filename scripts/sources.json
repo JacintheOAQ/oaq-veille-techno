@@ -1,9 +1,7 @@
 {
   "_note": "Pour revenir aux etudes primaires, retirer le bloc PUB_TYPE de la requete concernee. Pour elargir, augmenter max_par_requete.",
-
   "fenetre_jours": 8,
   "max_par_requete": 10,
-
   "requetes": [
     {
       "nom": "Acouphènes",
@@ -20,7 +18,7 @@
     },
     {
       "nom": "Santé auditive",
-      "europepmc": "(TITLE_ABS:\"hearing health care\" OR TITLE_ABS:\"hearing care services\" OR TITLE_ABS:\"ear and hearing care\" OR TITLE_ABS:\"audiology practice\" OR TITLE_ABS:\"scope of practice\") AND (TITLE_ABS:\"access\" OR TITLE_ABS:\"policy\" OR TITLE_ABS:\"guideline\" OR TITLE_ABS:\"workforce\" OR TITLE_ABS:\"quality\")"
+      "europepmc": "(TITLE_ABS:\"hearing health care\" OR TITLE_ABS:\"hearing care services\" OR TITLE_ABS:\"ear and hearing care\" OR TITLE_ABS:\"audiology practice\" OR TITLE_ABS:\"hearing services\") AND (TITLE_ABS:\"access\" OR TITLE_ABS:\"policy\" OR TITLE_ABS:\"guideline\" OR TITLE_ABS:\"workforce\" OR TITLE_ABS:\"quality\")"
     },
     {
       "nom": "Perte auditive",
@@ -41,12 +39,16 @@
       "europepmc": "(TITLE_ABS:\"cochlear implant\" OR TITLE_ABS:\"bone conduction device\" OR TITLE_ABS:\"teleaudiology\" OR TITLE_ABS:\"remote hearing care\" OR TITLE_ABS:\"telehealth audiology\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
     }
   ],
-
   "flux_rss": [
     {
       "nom": "Organisation mondiale de la Santé",
       "url": "https://www.who.int/rss-feeds/news-english.xml",
-      "filtre": ["hearing", "deafness", "ear", "audition"]
+      "filtre": [
+        "hearing",
+        "deafness",
+        "ear",
+        "audition"
+      ]
     },
     {
       "nom": "Hearing Health & Technology Matters",
