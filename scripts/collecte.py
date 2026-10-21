@@ -259,6 +259,9 @@ def main():
     candidats = lire_json(F_CANDIDATS, [])
     vus = lire_json(F_VUS, [])
 
+        candidats = [c for c in candidats if isinstance(c, dict)]
+    vus = [v for v in vus if isinstance(v, str)]
+
     connus = set(vus)
     for c in candidats:
         connus.add(c.get("cle") or cle("", c.get("titre", "")))
