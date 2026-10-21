@@ -32,6 +32,21 @@ F_CANDIDATS = os.path.join(RACINE, "donnees", "candidats.json")
 F_VUS = os.path.join(RACINE, "donnees", "vus.json")
 
 AGENT = "OAQ-veille/1.0 (veille en sante auditive; contact via GitHub)"
+
+# Garde-fou thematique : un document dont le titre ou le resume ne contient
+# aucun de ces mots n'a rien a voir avec l'audition. Ajoutez-en au besoin.
+MOTS_AUDITION = [
+    "hearing", "hear ", "audiolog", "audiomet", "audiogram", "auditory",
+    "tinnitus", "cochlea", "deaf", "otolog", "otitis", "presbycus",
+    "earmold", "ear mold", "hearable", "amplification", "sound exposure",
+    "noise-induced", "audition", "auditive", "auditif", "surdite", "surdité",
+    "acouphene", "acouphène", "prothese auditive", "prothèse auditive",
+]
+
+
+def pertinent(fiche):
+    texte = (str(fiche.get("titre", "")) + " " + str(fiche.get("resume_source", ""))).lower()
+    return any(mot in texte for mot in MOTS_AUDITION)
 PAUSE = 1.0  # seconde entre deux appels, par courtoisie envers les serveurs
 
 incidents = []
@@ -143,7 +158,7 @@ def europepmc(requete, depuis, maximum):
 def crossref(requete, depuis, jusqua, maximum):
     url = ("https://api.crossref.org/works"
            "?query=%s&filter=from-pub-date:%s,until-pub-date:%s,type:journal-article"
-           "&rows=%d&sort=published&order=desc&select=DOI,title,abstract,author,container-title,published"
+           "&rows=%d&select=DOI,title,abstract,author,container-title,published"
            % (urllib.parse.quote(requete), depuis, jusqua, maximum))
     donnees = appeler_json(url, "Crossref")
     if not donnees:
@@ -289,11 +304,14 @@ def main():
 
     # Garde-fou : une date future ou absurde signale une metadonnee fautive
     plancher = (datetime.now(timezone.utc) - timedelta(days=jours + 400)).strftime("%Y-%m-%d")
-    propres, aberrants = [], 0
+    propres, aberrants, hors_sujet = [], 0, 0
     for r in recoltes:
         d = r.get("date") or ""
         if d and (d > aujourdhui or d < plancher):
             aberrants += 1
+            continue
+        if r.get("origine") in ("Europe PMC", "Crossref") and not pertinent(r):
+            hors_sujet += 1
             continue
         propres.append(r)
     recoltes = propres
@@ -324,6 +342,7 @@ def main():
         "- Fenetre : %d jours, depuis le %s" % (jours, depuis),
         "- Resultats examines : %d" % len(recoltes),
         "- Ecartes pour date aberrante : %d" % aberrants,
+        "- Ecartes hors sujet : %d" % hors_sujet,
         "- **Nouveaux candidats : %d**" % len(nouveaux),
         "- Total en attente de triage : %d" % (len(candidats) + len(nouveaux)),
         "",
