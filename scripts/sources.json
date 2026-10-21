@@ -1,0 +1,62 @@
+{
+  "_note": "Pour revenir aux etudes primaires, retirer le bloc PUB_TYPE de la requete concernee. Pour elargir, augmenter max_par_requete.",
+
+  "fenetre_jours": 8,
+  "max_par_requete": 10,
+
+  "requetes": [
+    {
+      "nom": "Acouphènes",
+      "europepmc": "(TITLE_ABS:\"tinnitus\") AND (TITLE_ABS:\"treatment\" OR TITLE_ABS:\"management\" OR TITLE_ABS:\"assessment\" OR TITLE_ABS:\"hearing aid\" OR TITLE_ABS:\"sound therapy\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
+    },
+    {
+      "nom": "Mesures in vivo",
+      "europepmc": "(TITLE_ABS:\"real ear measurement\" OR TITLE_ABS:\"real-ear\" OR TITLE_ABS:\"probe microphone\" OR TITLE_ABS:\"prescriptive formula\" OR TITLE_ABS:\"fitting verification\") AND (TITLE_ABS:\"hearing aid\" OR TITLE_ABS:\"amplification\")",
+      "crossref": "real ear measurement hearing aid verification"
+    },
+    {
+      "nom": "Audiométrie",
+      "europepmc": "(TITLE_ABS:\"audiometry\" OR TITLE_ABS:\"audiogram\" OR TITLE_ABS:\"speech in noise\" OR TITLE_ABS:\"bone conduction threshold\" OR TITLE_ABS:\"hearing threshold\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
+    },
+    {
+      "nom": "Santé auditive",
+      "europepmc": "(TITLE_ABS:\"hearing health care\" OR TITLE_ABS:\"hearing care services\" OR TITLE_ABS:\"ear and hearing care\" OR TITLE_ABS:\"audiology practice\" OR TITLE_ABS:\"scope of practice\") AND (TITLE_ABS:\"access\" OR TITLE_ABS:\"policy\" OR TITLE_ABS:\"guideline\" OR TITLE_ABS:\"workforce\" OR TITLE_ABS:\"quality\")"
+    },
+    {
+      "nom": "Perte auditive",
+      "europepmc": "(TITLE_ABS:\"hearing loss\" OR TITLE_ABS:\"presbycusis\" OR TITLE_ABS:\"hearing impairment\") AND (TITLE_ABS:\"screening\" OR TITLE_ABS:\"cognition\" OR TITLE_ABS:\"dementia\" OR TITLE_ABS:\"prevalence\" OR TITLE_ABS:\"rehabilitation\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
+    },
+    {
+      "nom": "Efficacité de l’appareillage",
+      "europepmc": "(TITLE_ABS:\"hearing aid\" OR TITLE_ABS:\"hearing aids\") AND (TITLE_ABS:\"outcome\" OR TITLE_ABS:\"benefit\" OR TITLE_ABS:\"effectiveness\" OR TITLE_ABS:\"satisfaction\" OR TITLE_ABS:\"patient reported\" OR TITLE_ABS:\"adherence\" OR TITLE_ABS:\"use time\")",
+      "crossref": "hearing aid outcomes patient reported benefit"
+    },
+    {
+      "nom": "Appareils en vente libre",
+      "europepmc": "(TITLE_ABS:\"over-the-counter hearing aid\" OR TITLE_ABS:\"OTC hearing aid\" OR TITLE_ABS:\"direct-to-consumer hearing\" OR TITLE_ABS:\"self-fitting hearing aid\" OR TITLE_ABS:\"hearable\")",
+      "crossref": "over the counter hearing aids self-fitting regulation"
+    },
+    {
+      "nom": "Implants et téléaudiologie",
+      "europepmc": "(TITLE_ABS:\"cochlear implant\" OR TITLE_ABS:\"bone conduction device\" OR TITLE_ABS:\"teleaudiology\" OR TITLE_ABS:\"remote hearing care\" OR TITLE_ABS:\"telehealth audiology\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
+    }
+  ],
+
+  "flux_rss": [
+    {
+      "nom": "Organisation mondiale de la Santé",
+      "url": "https://www.who.int/rss-feeds/news-english.xml",
+      "filtre": ["hearing", "deafness", "ear", "audition"]
+    },
+    {
+      "nom": "Hearing Health & Technology Matters",
+      "url": "https://hearinghealthmatters.org/feed/",
+      "filtre": []
+    },
+    {
+      "nom": "The Hearing Review",
+      "url": "https://hearingreview.com/feed",
+      "filtre": []
+    }
+  ]
+}
