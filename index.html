@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Veille en santé auditive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Open+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --encre:#003d4c;
+  --encre-moyen:#00627a;
+  --cyan:#00AEEF;
+  --cyan-pale:#cbeefd;
+  --ambre:#eaa04c;
+  --ambre-pale:#fcc86b;
+  --gris:#e9e9e9;
+  --blanc:#ffffff;
+
+  --fond:#ffffff;
+  --fond-creux:#f4f7f8;
+  --surface:#ffffff;
+  --texte:#12303a;
+  --texte-doux:#4a6672;
+  --trait:#dde5e8;
+  --accent:var(--encre-moyen);
+  --liseré:var(--cyan);
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --fond:#06212a;
+    --fond-creux:#041a21;
+    --surface:#0a2c37;
+    --texte:#e4f1f5;
+    --texte-doux:#9dbcc6;
+    --trait:#17414f;
+    --accent:var(--cyan);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --fond:#06212a;
+  --fond-creux:#041a21;
+  --surface:#0a2c37;
+  --texte:#e4f1f5;
+  --texte-doux:#9dbcc6;
+  --trait:#17414f;
+  --accent:var(--cyan);
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--fond);
+  color:var(--texte);
+  font-family:"Open Sans",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+}
+h1,h2,h3,h4,.police-titre{font-family:"Figtree","Open Sans",system-ui,sans-serif;font-weight:700;letter-spacing:-0.015em;}
+a{color:var(--accent);}
+.saut{position:absolute;left:-9999px;}
+.saut:focus{left:1rem;top:1rem;z-index:50;background:var(--blanc);color:var(--encre);padding:.6rem 1rem;border-radius:4px;}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;}
+
+/* Bandeau */
+.masthead{background:var(--encre);color:var(--blanc);}
+.enveloppe{max-width:62rem;margin:0 auto;padding:0 1.25rem;}
+.masthead-haut{display:flex;flex-wrap:wrap;gap:1rem;align-items:baseline;justify-content:space-between;padding:1.1rem 0 .9rem;}
+.marque{font-family:"Figtree",sans-serif;font-weight:700;font-size:1.05rem;color:var(--blanc);text-decoration:none;}
+.marque span{display:block;font-family:"Open Sans",sans-serif;font-weight:400;font-size:.78rem;color:var(--cyan-pale);letter-spacing:0;}
+.onglets{display:flex;gap:.35rem;flex-wrap:wrap;}
+.onglet{
+  background:none;border:1px solid transparent;color:var(--cyan-pale);
+  font-family:"Figtree",sans-serif;font-weight:600;font-size:.9rem;
+  padding:.4rem .85rem;border-radius:999px;cursor:pointer;
+}
+.onglet:hover{border-color:var(--encre-moyen);color:var(--blanc);}
+.onglet[aria-selected="true"]{background:var(--cyan);color:#00262f;}
+
+.hero{background:var(--encre);color:var(--blanc);padding:1.5rem 0 2.5rem;}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem);line-height:1.1;margin:0 0 .75rem;max-width:18ch;}
+.hero p{margin:0;max-width:60ch;color:#cfe8f2;font-size:1.02rem;}
+.compteurs{display:flex;flex-wrap:wrap;gap:1.75rem;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--encre-moyen);}
+.compteur b{display:block;font-family:"Figtree",sans-serif;font-size:1.7rem;line-height:1;color:var(--ambre-pale);}
+.compteur small{color:#a9d4e4;font-size:.8rem;}
+
+/* Corps */
+main{padding:0 0 4rem;}
+.vue[hidden]{display:none;}
+.section-titre{font-size:1.35rem;margin:2.5rem 0 .4rem;}
+.section-intro{color:var(--texte-doux);margin:0 0 1.25rem;max-width:62ch;}
+
+/* Filtres */
+.filtres{
+  background:var(--fond-creux);
+  border-top:1px solid var(--trait);
+  border-bottom:1px solid var(--trait);
+  padding:1rem 0;
+  position:sticky;top:0;z-index:20;
+}
+.filtres-grille{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:.6rem;}
+@media (max-width:760px){.filtres-grille{grid-template-columns:1fr 1fr;}.recherche{grid-column:1/-1;}}
+.filtres input,.filtres select{
+  width:100%;padding:.55rem .7rem;border:1px solid var(--trait);border-radius:6px;
+  background:var(--surface);color:var(--texte);font-family:inherit;font-size:.92rem;
+}
+.ligne-etat{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:.7rem;font-size:.85rem;color:var(--texte-doux);}
+.raz{background:none;border:none;color:var(--accent);font:inherit;font-size:.85rem;cursor:pointer;text-decoration:underline;padding:0;}
+
+/* Fiches */
+.liste{list-style:none;margin:1.5rem 0 0;padding:0;}
+.fiche{
+  background:var(--surface);
+  border:1px solid var(--trait);
+  border-left:4px solid var(--liseré);
+  border-radius:4px;
+  padding:1.15rem 1.25rem 1.25rem;
+  margin-bottom:.9rem;
+}
+.fiche[data-type="scientifique"]{border-left-color:var(--cyan);}
+.fiche[data-type="réglementaire"]{border-left-color:var(--encre-moyen);}
+.fiche[data-type="normatif"]{border-left-color:var(--ambre);}
+.fiche[data-type="institutionnel"]{border-left-color:#5fb79b;}
+.fiche[data-type="industrie"]{border-left-color:#9b8ec4;}
+.fiche[data-type="presse"]{border-left-color:#b0bec5;}
+.entete{display:flex;flex-wrap:wrap;gap:.45rem .75rem;align-items:baseline;font-size:.82rem;color:var(--texte-doux);margin-bottom:.35rem;}
+.organisme{font-weight:600;color:var(--texte);}
+.etiquette{
+  font-family:"Figtree",sans-serif;font-weight:600;font-size:.72rem;
+  background:var(--cyan-pale);color:#004355;padding:.15rem .55rem;border-radius:3px;
+}
+.etiquette.exemple{background:var(--ambre-pale);color:#5a3a00;}
+.fiche h3{font-size:1.08rem;margin:0 0 .3rem;line-height:1.35;}
+.fiche h3 a{color:var(--texte);text-decoration:none;border-bottom:2px solid var(--cyan-pale);}
+.fiche h3 a:hover{border-bottom-color:var(--cyan);}
+.provenance{font-size:.8rem;color:var(--texte-doux);margin:0 0 .6rem;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;}
+.copier{background:none;border:1px solid var(--trait);border-radius:4px;color:var(--texte-doux);font:inherit;font-size:.74rem;padding:.1rem .45rem;cursor:pointer;}
+.copier:hover{color:var(--accent);border-color:var(--accent);}
+.resume{margin:0 0 .8rem;}
+.note{
+  background:var(--fond-creux);
+  border-left:3px solid var(--ambre);
+  padding:.6rem .8rem;font-size:.92rem;margin:0;
+}
+.note b{font-family:"Figtree",sans-serif;display:block;font-size:.78rem;color:var(--texte-doux);margin-bottom:.15rem;}
+.vide{border:1px dashed var(--trait);padding:2rem;text-align:center;color:var(--texte-doux);border-radius:6px;}
+
+/* Rapports */
+.rapport{border:1px solid var(--trait);border-radius:4px;padding:1.2rem;margin-bottom:.9rem;background:var(--surface);}
+.rapport h3{margin:.2rem 0 .5rem;font-size:1.2rem;}
+.rapport .meta{font-size:.8rem;color:var(--texte-doux);}
+.rapport button{
+  margin-top:.8rem;background:var(--encre);color:var(--blanc);border:none;border-radius:999px;
+  font-family:"Figtree",sans-serif;font-weight:600;font-size:.86rem;padding:.5rem 1.1rem;cursor:pointer;
+}
+.rapport button:hover{background:var(--encre-moyen);}
+.retour{background:none;border:none;color:var(--accent);font:inherit;cursor:pointer;padding:0;text-decoration:underline;}
+
+/* À propos */
+.prose{max-width:62ch;}
+.prose li{margin-bottom:.5rem;}
+.encadre-avis{background:var(--fond-creux);border:1px solid var(--trait);padding:1rem 1.2rem;border-radius:4px;}
+
+/* Formulaire d'ajout */
+.atelier{background:var(--fond-creux);border:1px solid var(--trait);border-radius:6px;padding:1.2rem;}
+.atelier label{display:block;font-size:.82rem;font-weight:600;margin:.7rem 0 .2rem;}
+.atelier input,.atelier select,.atelier textarea{
+  width:100%;padding:.5rem .65rem;border:1px solid var(--trait);border-radius:5px;
+  background:var(--surface);color:var(--texte);font-family:inherit;font-size:.9rem;
+}
+.atelier textarea{min-height:5rem;resize:vertical;}
+.atelier .paire{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+@media (max-width:600px){.atelier .paire{grid-template-columns:1fr;}}
+.atelier button{margin-top:1rem;background:var(--cyan);color:#00262f;border:none;border-radius:999px;font-family:"Figtree",sans-serif;font-weight:600;padding:.55rem 1.2rem;cursor:pointer;}
+pre.sortie{background:var(--encre);color:#d6f1fb;padding:1rem;border-radius:5px;overflow-x:auto;font-size:.8rem;margin-top:1rem;}
+
+footer{border-top:1px solid var(--trait);margin-top:3rem;padding:1.5rem 0 2.5rem;font-size:.85rem;color:var(--texte-doux);}
+footer p{max-width:70ch;}
+</style>
+</head>
+<body>
+<a class="saut" href="#contenu">Aller au contenu</a>
+
+<header class="masthead">
+  <div class="enveloppe">
+    <div class="masthead-haut">
+      <a class="marque" href="#veille">Veille en santé auditive<span>Ordre des audioprothésistes du Québec</span></a>
+      <nav class="onglets" role="tablist" aria-label="Sections">
+        <button class="onglet" role="tab" data-vue="veille" aria-selected="true">Corpus</button>
+        <button class="onglet" role="tab" data-vue="rapports" aria-selected="false">Rapports</button>
+        <button class="onglet" role="tab" data-vue="ajout" aria-selected="false">Ajouter une fiche</button>
+        <button class="onglet" role="tab" data-vue="apropos" aria-selected="false">Méthode</button>
+      </nav>
+    </div>
+  </div>
+  <div class="hero">
+    <div class="enveloppe">
+      <h1>Ce qui bouge dans la santé auditive</h1>
+      <p>Pratiques cliniques, littérature scientifique, normes et technologies de l’audition, suivies partout dans le monde et rapportées pour les audioprothésistes du Québec.</p>
+      <div class="compteurs">
+        <div class="compteur"><b id="c-total">0</b><small>fiches au corpus</small></div>
+        <div class="compteur"><b id="c-annee">0</b><small>ajoutées cette année</small></div>
+        <div class="compteur"><b id="c-pays">0</b><small>provenances</small></div>
+        <div class="compteur"><b id="c-rapports">0</b><small>rapports publiés</small></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <!-- CORPUS -->
+  <section class="vue" id="vue-veille">
+    <div class="filtres">
+      <div class="enveloppe">
+        <div class="filtres-grille">
+          <div class="recherche">
+            <label class="saut" for="q">Rechercher</label>
+            <input id="q" type="search" placeholder="Rechercher un titre, un organisme, un mot clé">
+          </div>
+          <div><label class="saut" for="f-theme">Thème</label><select id="f-theme"><option value="">Tous les thèmes</option></select></div>
+          <div><label class="saut" for="f-type">Type</label><select id="f-type"><option value="">Tous les types</option></select></div>
+          <div><label class="saut" for="f-region">Provenance</label><select id="f-region"><option value="">Toutes provenances</option></select></div>
+        </div>
+        <div class="ligne-etat">
+          <span id="etat">0 fiche</span>
+          <button class="raz" id="raz">Réinitialiser les filtres</button>
+        </div>
+      </div>
+    </div>
+    <div class="enveloppe">
+      <ul class="liste" id="liste"></ul>
+    </div>
+  </section>
+
+  <!-- RAPPORTS -->
+  <section class="vue" id="vue-rapports" hidden>
+    <div class="enveloppe">
+      <h2 class="section-titre">Rapports périodiques</h2>
+      <p class="section-intro">Une sélection commentée, publiée à intervalle fixe. Chaque rapport reprend les fiches du corpus jugées les plus importantes pour la période et se lit en quelques minutes.</p>
+      <div id="rapports"></div>
+      <div id="rapport-detail" hidden></div>
+    </div>
+  </section>
+
+  <!-- AJOUT -->
+  <section class="vue" id="vue-ajout" hidden>
+    <div class="enveloppe">
+      <h2 class="section-titre">Ajouter une fiche</h2>
+      <p class="section-intro">Remplissez le formulaire, copiez le bloc produit et collez-le dans le fichier de données du site. Aucune donnée n’est transmise ailleurs.</p>
+      <div class="atelier">
+        <div class="paire">
+          <div><label for="a-org">Organisme ou revue</label><input id="a-org" placeholder="Organisation mondiale de la Santé"></div>
+          <div><label for="a-date">Date du document</label><input id="a-date" type="date"></div>
+        </div>
+        <label for="a-titre">Titre</label><input id="a-titre" placeholder="Titre exact du document">
+        <label for="a-url">Lien</label><input id="a-url" type="url" placeholder="https://">
+        <div class="paire">
+          <div><label for="a-type">Type de source</label><select id="a-type"></select></div>
+          <div><label for="a-region">Provenance</label><input id="a-region" placeholder="Québec, International, États-Unis"></div>
+        </div>
+        <div class="paire">
+          <div><label for="a-theme">Thème</label><select id="a-theme"></select></div>
+          <div><label for="a-format">Format</label><select id="a-format"><option>Article scientifique</option><option>PDF</option><option>Page Web</option><option>Norme</option></select></div>
+        </div>
+        <label for="a-resume">Résumé (viser 100 mots, rédigé à partir du texte complet)</label><textarea id="a-resume"></textarea>
+        <label for="a-note">Pour la pratique québécoise</label><textarea id="a-note"></textarea>
+        <button id="a-produire">Produire le bloc de données</button>
+        <pre class="sortie" id="a-sortie" hidden></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTHODE -->
+  <section class="vue" id="vue-apropos" hidden>
+    <div class="enveloppe prose">
+      <h2 class="section-titre">Méthode de veille</h2>
+      <p>Cette veille suit l’évolution des pratiques, des connaissances et des technologies en santé auditive, dans le monde entier, pour les audioprothésistes du Québec et pour les comités de l’Ordre.</p>
+      <h3>Portée</h3>
+      <ul>
+        <li>Évaluation de l’audition : procédures, seuils, calibration, outils de mesure, dépistage.</li>
+        <li>Appareillage : aides auditives, vérification in vivo, formules prescriptives, accessoires, implants.</li>
+        <li>Littérature scientifique : essais cliniques, revues systématiques, lignes directrices fondées sur les données probantes.</li>
+        <li>Normes et réglementation : ISO, ANSI, Santé Canada, FDA, marquage CE.</li>
+        <li>Technologies émergentes : intelligence artificielle, téléaudiologie, appareils en vente libre.</li>
+        <li>Santé publique : prévalence, accessibilité, bruit, vieillissement, cognition.</li>
+      </ul>
+      <h3>Règles de sélection</h3>
+      <ul>
+        <li>Une fiche n’est retenue que si elle touche la pratique audioprothétique, de près ou de loin. La note « Pour la pratique québécoise » dit en quoi.</li>
+        <li>Chaque fiche porte un résumé d’environ 100 mots rédigé à partir du texte complet, jamais du seul résumé d’éditeur.</li>
+        <li>Les sources primaires passent avant les reprises de presse. La presse sert à signaler un fait, pas à l’établir.</li>
+        <li>Le lien pointe toujours vers le document d’origine, en libre accès lorsque c’est possible.</li>
+      </ul>
+      <h3>Avertissements</h3>
+      <div class="encadre-avis">
+        <p>Les sources citées sont externes et diffusées à titre informatif. Elles ne proviennent pas de l’Ordre des audioprothésistes du Québec ni de la réglementation applicable.</p>
+        <p>Les notes « Pour la pratique québécoise » sont une lecture de la veille. Elles ne constituent ni une position de l’Ordre, ni une norme de pratique, ni un avis juridique.</p>
+        <p style="margin-bottom:0">Les résumés décrivent le contenu du document cité et n’engagent pas l’Ordre.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="enveloppe">
+    <p>Veille préparée pour l’Ordre des audioprothésistes du Québec. Sources externes, à titre informatif. Les résumés décrivent le contenu du document cité et n’engagent pas l’Ordre.</p>
+    <p id="avis-demo"></p>
+  </div>
+</footer>
+
+<script>
+/* ------------------------------------------------------------------
+   DONNÉES. C’est le seul bloc à modifier pour alimenter le site.
+   Les fiches marquées "exemple" sont des gabarits de démonstration,
+   sans lien, à remplacer par de vraies entrées.
+------------------------------------------------------------------- */
+const THEMES = ["Évaluation de l’audition","Appareillage","Implants","Acouphènes","Pédiatrie","Normes et calibration","Réglementation","Technologies et IA","Santé publique","Cognition et vieillissement"];
+const TYPES  = ["scientifique","réglementaire","normatif","institutionnel","industrie","presse"];
+
+const FICHES = [
+  {
+    id:"oms-2021-rapport-mondial",
+    titre:"World report on hearing",
+    organisme:"Organisation mondiale de la Santé",
+    date:"2021-03-02",
+    region:"International",
+    type:"institutionnel",
+    theme:"Santé publique",
+    format:"PDF",
+    url:"https://www.who.int/publications/i/item/9789240021570",
+    resume:"Premier rapport mondial de l’OMS consacré à l’audition, produit à la demande de l’Assemblée mondiale de la santé. Il estime que 1,5 milliard de personnes vivent avec une perte auditive et que ce nombre pourrait atteindre 2,5 milliards en 2050, dont au moins 700 millions auront besoin de services. Il chiffre à environ mille milliards de dollars américains la perte annuelle attribuable à une surdité non prise en charge. Le rapport documente l’écart entre les besoins et l’offre de services dans toutes les régions du monde, puis propose un ensemble d’interventions que les États peuvent intégrer à leurs plans de santé, du dépistage à la réadaptation.",
+    note:"Le cadre de référence auquel se rattachent la plupart des politiques nationales en santé auditive. Utile pour situer l’offre québécoise de services audioprothétiques dans la perspective mondiale."
+  },
+  {
+    id:"achieve-2023",
+    titre:"Hearing intervention versus health education control to reduce cognitive decline in older adults with hearing loss in the USA (ACHIEVE)",
+    organisme:"The Lancet",
+    date:"2023-07-17",
+    region:"États-Unis",
+    type:"scientifique",
+    theme:"Cognition et vieillissement",
+    format:"Article scientifique",
+    url:"https://pubmed.ncbi.nlm.nih.gov/37478886/",
+    resume:"Premier essai randomisé contrôlé testant si une intervention auditive ralentit le déclin cognitif. L’étude a suivi pendant trois ans 977 adultes de 70 à 84 ans présentant une perte auditive non appareillée et sans atteinte cognitive importante, répartis entre une intervention auditive et un programme d’éducation à la santé. Dans l’ensemble de la cohorte, l’intervention n’a pas réduit le déclin cognitif sur trois ans. Une analyse de sensibilité prévue au protocole montre cependant une réduction d’environ 48 % du déclin chez les participants issus de la cohorte ARIC, plus âgés et porteurs de davantage de facteurs de risque.",
+    note:"À citer avec précision : le résultat principal est négatif, et c’est le sous-groupe à risque élevé qui profite de l’intervention. Un repère utile lorsqu’un membre ou un patient évoque le lien entre appareillage et prévention de la démence."
+  },
+  {
+    id:"exemple-iso-8253",
+    titre:"ISO 8253-1, Acoustique, Méthodes d’essai audiométrique, Audiométrie tonale liminaire",
+    organisme:"Organisation internationale de normalisation",
+    date:"2025-06-01",
+    region:"International",
+    type:"normatif",
+    theme:"Normes et calibration",
+    format:"Norme",
+    url:"",
+    exemple:true,
+    resume:"Gabarit de démonstration. Remplacer par le résumé réel d’environ 100 mots rédigé à partir du texte complet du document. Décrire ce que le document établit, pour qui, et ce qui change par rapport à la version précédente lorsqu’il s’agit d’une révision.",
+    note:"Gabarit de démonstration. Indiquer ici en quoi le document touche la pratique des audioprothésistes du Québec, ou pourquoi il mérite d’être suivi même s’il ne s’y applique pas directement."
+  },
+  {
+    id:"exemple-vente-libre",
+    titre:"Encadrement des aides auditives en vente libre",
+    organisme:"Santé Canada",
+    date:"2025-11-14",
+    region:"Canada",
+    type:"réglementaire",
+    theme:"Réglementation",
+    format:"Page Web",
+    url:"",
+    exemple:true,
+    resume:"Gabarit de démonstration. Remplacer par le résumé réel. Pour une source réglementaire, préciser le statut du texte : projet, consultation, entrée en vigueur, et la date qui s’y rattache.",
+    note:"Gabarit de démonstration. Pour un texte réglementaire d’une autre autorité, dire explicitement s’il s’applique au Québec ou non."
+  },
+  {
+    id:"exemple-verification-invivo",
+    titre:"Adhésion des cliniciens à la vérification in vivo : revue systématique",
+    organisme:"International Journal of Audiology",
+    date:"2026-02-10",
+    region:"International",
+    type:"scientifique",
+    theme:"Appareillage",
+    format:"Article scientifique",
+    url:"",
+    exemple:true,
+    resume:"Gabarit de démonstration. Pour un article scientifique, préciser le devis, la population, la taille de l’échantillon, le résultat principal et les limites. Ne pas surinterpréter un résultat exploratoire.",
+    note:"Gabarit de démonstration. Faire le pont avec les normes de pratique de l’Ordre lorsqu’il y a lieu."
+  },
+  {
+    id:"exemple-teleaudiologie",
+    titre:"Téléaudiologie et ajustement à distance : état des pratiques",
+    organisme:"British Society of Audiology",
+    date:"2026-04-22",
+    region:"Royaume-Uni",
+    type:"institutionnel",
+    theme:"Technologies et IA",
+    format:"PDF",
+    url:"",
+    exemple:true,
+    resume:"Gabarit de démonstration. Pour une ligne directrice étrangère, résumer la recommandation et nommer son autorité, afin que le lecteur distingue une obligation d’une bonne pratique suggérée.",
+    note:"Gabarit de démonstration."
+  },
+  {
+    id:"exemple-pediatrie",
+    titre:"Dépistage auditif néonatal : indicateurs de performance",
+    organisme:"JCIH",
+    date:"2026-01-19",
+    region:"États-Unis",
+    type:"institutionnel",
+    theme:"Pédiatrie",
+    format:"PDF",
+    url:"",
+    exemple:true,
+    resume:"Gabarit de démonstration.",
+    note:"Gabarit de démonstration."
+  }
+];
+
+const RAPPORTS = [
+  {
+    id:"2026-t4",
+    titre:"Quatrième trimestre 2026",
+    periode:"Octobre à décembre 2026",
+    publie:"Prévu le 15 janvier 2027",
+    statut:"collecte",
+    intro:"Collecte en cours.",
+    fiches:[]
+  },
+  {
+    id:"2026-t3",
+    titre:"Troisième trimestre 2026",
+    periode:"Juillet à septembre 2026",
+    publie:"Publié le 10 octobre 2026",
+    statut:"publié",
+    intro:"Gabarit de démonstration. Le texte d’ouverture résume en trois ou quatre phrases ce que la période a apporté de neuf, puis les fiches retenues suivent dans l’ordre où elles doivent être lues.",
+    fiches:["oms-2021-rapport-mondial","achieve-2023"]
+  }
+];
+
+/* ------------------------------------------------------------------
+   AFFICHAGE
+------------------------------------------------------------------- */
+const $ = s => document.querySelector(s);
+const esc = t => String(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+function dateFr(iso){
+  if(!iso) return "";
+  const [a,m,j] = iso.split("-").map(Number);
+  return (j===1?"1er":j)+" "+MOIS[m-1]+" "+a;
+}
+function domaine(url){ try{ return new URL(url).hostname.replace(/^www\./,""); }catch{ return ""; } }
+
+function gabaritFiche(f){
+  const lien = f.url
+    ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titre)}</a>`
+    : esc(f.titre);
+  const prov = f.url
+    ? `${esc(f.format)} · ${esc(domaine(f.url))} <button class="copier" data-copier="${esc(f.url)}">Copier le lien</button>`
+    : `${esc(f.format)} · lien à compléter`;
+  return `<li class="fiche" data-type="${esc(f.type)}" id="f-${esc(f.id)}">
+    <div class="entete">
+      <span class="organisme">${esc(f.organisme)}</span>
+      <span>${esc(dateFr(f.date))}</span>
+      <span>${esc(f.region)}</span>
+      <span class="etiquette">${esc(f.theme)}</span>
+      ${f.exemple?'<span class="etiquette exemple">Gabarit</span>':''}
+    </div>
+    <h3>${lien}</h3>
+    <p class="provenance">${prov}</p>
+    <p class="resume">${esc(f.resume)}</p>
+    <p class="note"><b>Pour la pratique québécoise</b>${esc(f.note)}</p>
+  </li>`;
+}
+
+function remplirSelect(sel, valeurs){
+  valeurs.forEach(v=>{ const o=document.createElement("option"); o.value=v; o.textContent=v; sel.appendChild(o); });
+}
+
+function filtrer(){
+  const q = $("#q").value.trim().toLowerCase();
+  const th = $("#f-theme").value, ty = $("#f-type").value, re = $("#f-region").value;
+  const res = FICHES
+    .filter(f=>!th||f.theme===th)
+    .filter(f=>!ty||f.type===ty)
+    .filter(f=>!re||f.region===re)
+    .filter(f=>!q || (f.titre+" "+f.organisme+" "+f.resume+" "+f.note+" "+f.theme).toLowerCase().includes(q))
+    .sort((a,b)=> b.date.localeCompare(a.date));
+  $("#liste").innerHTML = res.length
+    ? res.map(gabaritFiche).join("")
+    : `<li class="vide">Aucune fiche ne correspond. Élargissez la recherche ou réinitialisez les filtres.</li>`;
+  $("#etat").textContent = res.length + (res.length>1?" fiches":" fiche");
+}
+
+function listeRapports(){
+  $("#rapports").innerHTML = RAPPORTS.map(r=>`
+    <article class="rapport">
+      <p class="meta">${esc(r.periode)} · ${esc(r.publie)}</p>
+      <h3>${esc(r.titre)}</h3>
+      <p>${esc(r.intro)}</p>
+      ${r.fiches.length?`<button data-rapport="${esc(r.id)}">Lire le rapport (${r.fiches.length} fiches)</button>`:""}
+    </article>`).join("");
+}
+
+function ouvrirRapport(id){
+  const r = RAPPORTS.find(x=>x.id===id); if(!r) return;
+  const fiches = r.fiches.map(fid=>FICHES.find(f=>f.id===fid)).filter(Boolean);
+  $("#rapports").hidden = true;
+  const d = $("#rapport-detail");
+  d.hidden = false;
+  d.innerHTML = `<p><button class="retour" id="retour">← Tous les rapports</button></p>
+    <h2 class="section-titre" style="margin-top:.5rem">${esc(r.titre)}</h2>
+    <p class="section-intro">${esc(r.intro)}</p>
+    <p class="meta" style="font-size:.82rem;color:var(--texte-doux)">${esc(r.periode)} · ${esc(r.publie)} · ${fiches.length} fiches</p>
+    <ul class="liste">${fiches.map(gabaritFiche).join("")}</ul>`;
+  $("#retour").addEventListener("click",()=>{ d.hidden=true; $("#rapports").hidden=false; });
+  window.scrollTo({top:0});
+}
+
+function montrerVue(nom){
+  ["veille","rapports","ajout","apropos"].forEach(v=>{
+    $("#vue-"+v).hidden = (v!==nom);
+  });
+  document.querySelectorAll(".onglet").forEach(b=>b.setAttribute("aria-selected", String(b.dataset.vue===nom)));
+  if(location.hash.slice(1)!==nom) history.replaceState(null,"","#"+nom);
+}
+
+/* Initialisation */
+remplirSelect($("#f-theme"), [...new Set(FICHES.map(f=>f.theme))].sort());
+remplirSelect($("#f-type"), TYPES);
+remplirSelect($("#f-region"), [...new Set(FICHES.map(f=>f.region))].sort());
+remplirSelect($("#a-type"), TYPES);
+remplirSelect($("#a-theme"), THEMES);
+
+$("#c-total").textContent = FICHES.length;
+$("#c-annee").textContent = FICHES.filter(f=>f.date.startsWith("2026")).length;
+$("#c-pays").textContent = new Set(FICHES.map(f=>f.region)).size;
+$("#c-rapports").textContent = RAPPORTS.filter(r=>r.statut==="publié").length;
+const nbGabarits = FICHES.filter(f=>f.exemple).length;
+$("#avis-demo").textContent = nbGabarits
+  ? "Prototype : "+nbGabarits+" fiches sur "+FICHES.length+" sont des gabarits de démonstration, signalés par l’étiquette « Gabarit » et sans lien. Elles sont à remplacer."
+  : "";
+
+["#q","#f-theme","#f-type","#f-region"].forEach(s=>{
+  $(s).addEventListener("input", filtrer);
+});
+$("#raz").addEventListener("click",()=>{
+  $("#q").value=""; $("#f-theme").value=""; $("#f-type").value=""; $("#f-region").value=""; filtrer();
+});
+document.addEventListener("click",e=>{
+  const c = e.target.closest("[data-copier]");
+  if(c && navigator.clipboard){
+    navigator.clipboard.writeText(c.dataset.copier).then(()=>{
+      const t=c.textContent; c.textContent="Copié"; setTimeout(()=>c.textContent=t,1500);
+    }).catch(()=>{});
+  }
+  const r = e.target.closest("[data-rapport]");
+  if(r) ouvrirRapport(r.dataset.rapport);
+  const o = e.target.closest(".onglet");
+  if(o) montrerVue(o.dataset.vue);
+});
+
+$("#a-produire").addEventListener("click",()=>{
+  const v = id => $(id).value.trim();
+  const fiche = {
+    id: (v("#a-titre").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,48)) || "a-nommer",
+    titre: v("#a-titre"),
+    organisme: v("#a-org"),
+    date: v("#a-date"),
+    region: v("#a-region"),
+    type: v("#a-type"),
+    theme: v("#a-theme"),
+    format: v("#a-format"),
+    url: v("#a-url"),
+    resume: v("#a-resume"),
+    note: v("#a-note")
+  };
+  const mots = fiche.resume ? fiche.resume.split(/\s+/).filter(Boolean).length : 0;
+  const manque = Object.entries(fiche).filter(([k,val])=>!val).map(([k])=>k);
+  let avis = "";
+  if(manque.length) avis += "// Champs vides : "+manque.join(", ")+"\n";
+  if(mots && (mots<70 || mots>140)) avis += "// Résumé de "+mots+" mots. La cible est 100 mots environ.\n";
+  $("#a-sortie").hidden = false;
+  $("#a-sortie").textContent = avis + JSON.stringify(fiche,null,2)+",";
+});
+
+const depart = ["veille","rapports","ajout","apropos"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "veille";
+montrerVue(depart);
+filtrer();
+listeRapports();
+</script>
+</body>
+</html>
