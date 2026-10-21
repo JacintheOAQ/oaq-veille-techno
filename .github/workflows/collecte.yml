@@ -52,5 +52,3 @@ jobs:
           Detail de la collecte : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
           Fermer ce billet une fois le triage fait."
-
-Ajout de la collecte automatique
