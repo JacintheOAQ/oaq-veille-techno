@@ -1,7 +1,7 @@
 {
   "_note": "Pour revenir aux etudes primaires, retirer le bloc PUB_TYPE de la requete concernee. Pour elargir, augmenter max_par_requete.",
   "fenetre_jours": 8,
-  "max_par_requete": 10,
+  "max_par_requete": 8,
   "requetes": [
     {
       "nom": "Acouphènes",
@@ -37,6 +37,30 @@
     {
       "nom": "Implants et téléaudiologie",
       "europepmc": "(TITLE_ABS:\"cochlear implant\" OR TITLE_ABS:\"bone conduction device\" OR TITLE_ABS:\"teleaudiology\" OR TITLE_ABS:\"remote hearing care\" OR TITLE_ABS:\"telehealth audiology\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
+    },
+    {
+      "nom": "Impression et fabrication",
+      "europepmc": "(TITLE_ABS:\"earmold\" OR TITLE_ABS:\"ear mould\" OR TITLE_ABS:\"ear impression\" OR TITLE_ABS:\"ear scanning\" OR TITLE_ABS:\"3D-printed earmold\" OR TITLE_ABS:\"acoustic coupling\" OR TITLE_ABS:\"receiver-in-canal\" OR TITLE_ABS:\"vent\" OR TITLE_ABS:\"venting\") AND (TITLE_ABS:\"hearing aid\" OR TITLE_ABS:\"hearing aids\" OR TITLE_ABS:\"ear\" OR TITLE_ABS:\"amplification\")",
+      "crossref": "earmold ear impression 3D printing hearing aid"
+    },
+    {
+      "nom": "Vérification et validation",
+      "europepmc": "(TITLE_ABS:\"speech mapping\" OR TITLE_ABS:\"aided audibility\" OR TITLE_ABS:\"Speech Intelligibility Index\" OR TITLE_ABS:\"functional gain\" OR TITLE_ABS:\"coupler measurement\" OR TITLE_ABS:\"2cc coupler\" OR TITLE_ABS:\"test box\" OR TITLE_ABS:\"verification protocol\" OR TITLE_ABS:\"NAL-NL3\" OR TITLE_ABS:\"NAL-NL2\" OR TITLE_ABS:\"DSL v5\")",
+      "crossref": "aided audibility speech intelligibility index hearing aid verification"
+    },
+    {
+      "nom": "Accessoires et connectivité",
+      "europepmc": "(TITLE_ABS:\"remote microphone\" OR TITLE_ABS:\"FM system\" OR TITLE_ABS:\"digital modulation\" OR TITLE_ABS:\"telecoil\" OR TITLE_ABS:\"hearing loop\" OR TITLE_ABS:\"induction loop\" OR TITLE_ABS:\"Bluetooth\" OR TITLE_ABS:\"LE Audio\" OR TITLE_ABS:\"Auracast\" OR TITLE_ABS:\"audio streaming\" OR TITLE_ABS:\"assistive listening device\") AND (TITLE_ABS:\"hearing\" OR TITLE_ABS:\"listening\" OR TITLE_ABS:\"cochlear implant\")",
+      "crossref": "remote microphone telecoil hearing loop assistive listening"
+    },
+    {
+      "nom": "Prise en charge et counseling",
+      "europepmc": "(TITLE_ABS:\"hearing aid orientation\" OR TITLE_ABS:\"acclimatization\" OR TITLE_ABS:\"wearing time\" OR TITLE_ABS:\"data logging\" OR TITLE_ABS:\"audiological rehabilitation\" OR TITLE_ABS:\"aural rehabilitation\" OR TITLE_ABS:\"communication strategies\" OR TITLE_ABS:\"listening effort\" OR TITLE_ABS:\"hearing aid uptake\" OR TITLE_ABS:\"hearing aid non-use\" OR TITLE_ABS:\"counseling\") AND (TITLE_ABS:\"hearing aid\" OR TITLE_ABS:\"hearing loss\" OR TITLE_ABS:\"hearing\") AND (PUB_TYPE:\"Review\" OR PUB_TYPE:\"Systematic Review\" OR PUB_TYPE:\"Meta-Analysis\" OR PUB_TYPE:\"Randomized Controlled Trial\" OR PUB_TYPE:\"Guideline\" OR PUB_TYPE:\"Practice Guideline\")"
+    },
+    {
+      "nom": "Protection auditive et bruit",
+      "europepmc": "(TITLE_ABS:\"hearing protection\" OR TITLE_ABS:\"hearing protector\" OR TITLE_ABS:\"earplug\" OR TITLE_ABS:\"noise exposure\" OR TITLE_ABS:\"occupational hearing loss\" OR TITLE_ABS:\"noise-induced hearing loss\" OR TITLE_ABS:\"musician\") AND (TITLE_ABS:\"hearing\" OR TITLE_ABS:\"noise\" OR TITLE_ABS:\"ear\")",
+      "crossref": "custom hearing protector musician earplug attenuation"
     }
   ],
   "flux_rss": [
